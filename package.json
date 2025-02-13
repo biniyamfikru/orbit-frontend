@@ -2,12 +2,12 @@
   "name": "electron-vite",
   "private": true,
   "version": "0.0.0",
+  "main": "./out/main/main.js",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "tsc -b && vite build",
-    "lint": "eslint .",
-    "preview": "vite preview"
+    "dev": "electron-vite dev -w",
+    "build": "electron-vite build",
+    "preview": "electron-vite preview"
   },
   "dependencies": {
     "@radix-ui/react-label": "^2.1.2",
@@ -27,6 +27,8 @@
     "@types/react-dom": "^19.0.3",
     "@vitejs/plugin-react": "^4.3.4",
     "autoprefixer": "^10.4.20",
+    "electron": "^34.2.0",
+    "electron-vite": "^2.3.0",
     "eslint": "^9.19.0",
     "eslint-plugin-react-hooks": "^5.0.0",
     "eslint-plugin-react-refresh": "^0.4.18",

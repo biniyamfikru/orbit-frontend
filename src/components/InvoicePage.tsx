@@ -7,6 +7,7 @@ import {
   TableHeader,
   TableRow,
 } from "./ui/table"
+import { Card } from "./ui/card"
 
 interface InvoicePageProps {
   data: {
@@ -39,34 +40,42 @@ export default function InvoicePage({ data, onSave, onBack }: InvoicePageProps) 
 
   return (
     <div className="space-y-6">
-      <div className="space-y-2">
-        <h3 className="text-lg font-semibold">Staff Information</h3>
-        <p>Name: {data.staff.name}</p>
-        <p>Team: {data.staff.team}</p>
-        <p>ID: {data.staff.id}</p>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <Card className="p-4 space-y-2">
+          <h3 className="text-lg font-semibold border-b pb-2">Staff Information</h3>
+          <div className="space-y-1">
+            <p><span className="font-medium">Name:</span> {data.staff.name}</p>
+            <p><span className="font-medium">Team:</span> {data.staff.team}</p>
+            <p><span className="font-medium">ID:</span> {data.staff.id}</p>
+          </div>
+        </Card>
+
+        <Card className="p-4 space-y-2">
+          <h3 className="text-lg font-semibold border-b pb-2">Patient Information</h3>
+          <div className="space-y-1">
+            <p><span className="font-medium">Name:</span> {data.patient.name}</p>
+            <p><span className="font-medium">Address:</span> {data.patient.address}</p>
+          </div>
+        </Card>
       </div>
 
-      <div className="space-y-2">
-        <h3 className="text-lg font-semibold">Patient Information</h3>
-        <p>Name: {data.patient.name}</p>
-        <p>Address: {data.patient.address}</p>
-      </div>
+      <Card className="p-4 space-y-2">
+        <h3 className="text-lg font-semibold border-b pb-2">Payment Details</h3>
+        <div className="space-y-1">
+          <p><span className="font-medium">Payment Type:</span> {data.paymentType}</p>
+        </div>
+      </Card>
 
-      <div className="space-y-2">
-        <h3 className="text-lg font-semibold">Payment Type</h3>
-        <p>{data.paymentType}</p>
-      </div>
-
-      <div className="space-y-2">
-        <h3 className="text-lg font-semibold">Products</h3>
+      <Card className="p-4 space-y-4">
+        <h3 className="text-lg font-semibold border-b pb-2">Products</h3>
         <Table>
           <TableHeader>
             <TableRow>
               <TableHead>Product ID</TableHead>
               <TableHead>Name</TableHead>
-              <TableHead>Price</TableHead>
-              <TableHead>Quantity</TableHead>
-              <TableHead>Subtotal</TableHead>
+              <TableHead className="text-right">Price</TableHead>
+              <TableHead className="text-right">Quantity</TableHead>
+              <TableHead className="text-right">Subtotal</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -74,26 +83,35 @@ export default function InvoicePage({ data, onSave, onBack }: InvoicePageProps) 
               <TableRow key={product.id}>
                 <TableCell>{product.id}</TableCell>
                 <TableCell>{product.name}</TableCell>
-                <TableCell>${product.price}</TableCell>
-                <TableCell>{product.quantity}</TableCell>
-                <TableCell>${product.price * product.quantity}</TableCell>
+                <TableCell className="text-right">${product.price.toFixed(2)}</TableCell>
+                <TableCell className="text-right">{product.quantity}</TableCell>
+                <TableCell className="text-right">
+                  ${(product.price * product.quantity).toFixed(2)}
+                </TableCell>
               </TableRow>
             ))}
             <TableRow>
               <TableCell colSpan={4} className="text-right font-semibold">
                 Total:
               </TableCell>
-              <TableCell className="font-semibold">${total}</TableCell>
+              <TableCell className="text-right font-semibold">
+                ${total.toFixed(2)}
+              </TableCell>
             </TableRow>
           </TableBody>
         </Table>
-      </div>
+      </Card>
 
       <div className="flex space-x-4">
         <Button type="button" variant="outline" onClick={onBack} className="w-full">
           Back
         </Button>
-        <Button type="button" onClick={onSave} className="w-full">
+        <Button 
+          type="button" 
+          onClick={onSave} 
+          className="w-full"
+          variant="default"
+        >
           Save Invoice
         </Button>
       </div>

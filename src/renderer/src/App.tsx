@@ -1,12 +1,12 @@
 import { useState } from 'react'
 // import { Card } from "@/components/ui/card"
-import UserForm from './components/UserForm'
-import PatientForm from './components/PatientForm'
-import PaymentTypeForm from './components/PaymentTypeForm'
-import ProductSelection from './components/ProductSelection'
-// import InvoicePage from './components/InvoicePage'
-import DataManagement from './components/DataManagement'
-import { Card } from './components/ui/card'
+import UserForm from '../../components/UserForm'
+import PatientForm from '../../components/PatientForm'
+import PaymentTypeForm from '../../components/PaymentTypeForm'
+import ProductSelection from '../../components/ProductSelection'
+import InvoicePage from '../../components/InvoicePage'
+import DataManagement from '../../components/DataManagement'
+import { Card } from '../../components/ui/card'
 
 type FormData = {
   staff: {
@@ -40,9 +40,9 @@ function App() {
   const prevStep = () => setStep(step - 1)
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
-      <div className="container max-w-2xl mx-auto">
-        <Card className="p-6">
+    <div className="w-full min-h-screen bg-gray-50 py-8">
+      <div className="flex justify-center container w-full  mx-auto">
+        <Card className="p-6 w-full">
           <div className="mb-6">
             <h1 className="text-2xl font-bold text-center text-gray-900">
               Health Center Payment System
@@ -96,12 +96,11 @@ function App() {
           )}
 
           {step === 5 && (
-            <>stpe</>
-            // <InvoicePage
-            //   data={formData}
-            //   onSave={() => nextStep()}
-            //   onBack={prevStep}
-            // />
+            <InvoicePage
+              data={formData}
+              onSave={() => nextStep()}
+              onBack={prevStep}
+            />
           )}
 
           {step === 6 && (
