@@ -1,9 +1,17 @@
 import { app, BrowserWindow } from 'electron';
+import path from 'path';
 
 let mainWindow: BrowserWindow | null;
 
 function createWindow() {
-    mainWindow = new BrowserWindow({});
+    mainWindow = new BrowserWindow({
+        width: 1000,
+        height: 1200,
+        resizable: true,
+        webPreferences: {
+            preload: path.join(__dirname, 'preload.ts'),
+        },
+    });
 
     // Vite dev server URL
     mainWindow.loadURL('http://localhost:5173');

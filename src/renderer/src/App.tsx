@@ -98,7 +98,6 @@ function App() {
           {step === 5 && (
             <InvoicePage
               data={formData}
-              onSave={() => nextStep()}
               onBack={prevStep}
             />
           )}

@@ -28,11 +28,60 @@ interface InvoicePageProps {
       quantity: number
     }>
   }
-  onSave: () => void
   onBack: () => void
 }
 
-export default function InvoicePage({ data, onSave, onBack }: InvoicePageProps) {
+export default function InvoicePage({ data, onBack }: InvoicePageProps) {
+  // const res = await fetch('http://:5173/api/invoice', {
+  const onSave = async () => {
+    const res = await fetch('http://127.0.0.1:8000/api/submtion/', {
+      method: 'POST',
+      body: JSON.stringify({
+        staff_name: data.staff.name,    // Staff Name
+        team: data.staff.team,          // Staff Team
+        staff_id: data.staff.id,        // Staff ID
+        patient_name: data.patient.name,  // Patient's name
+        patient_address: data.patient.address,  // Patient's address
+        payment_type: data.paymentType, // Payment type (service chosen)
+        products: data.products.map(item => ({
+          product_id: item.id,          // Product ID
+          name: item.name,              // Product Name
+          quantity: item.quantity,      // Quantity
+          price: item.price,            // Price
+          tax_rate: 0       // Tax Rate
+        }))
+      }),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }).then(res => res.json())
+    console.log(res)
+  }
+
+  const onPay = async () => {
+    const res = await fetch('https://souqpass.coopbankoromiasc.com/proxy/v1/payments/initialize', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'POST',
+      },
+      body: JSON.stringify({
+        "secretKey": "214d0755-f816-43c5-af62-e67d7e4410c9",
+        "apiKey": "f3cd6392-411f-4fa1-80b9-fb8343042db7",
+        "amount": 1000.0,
+        "currency": "ETB",
+        "paymentReason": data.paymentType,
+        "transactionId": "TX12345",
+        "notifyUrl": "http://yourcallbackurl.com/notify"
+      })
+    }).then(res => res.json())
+    if (res.data.checkoutUrl) {
+      window.open(res.data.checkoutUrl, '_blank');
+    }
+    console.log(res)
+  }
   const total = data.products.reduce(
     (sum, product) => sum + product.price * product.quantity,
     0
@@ -106,13 +155,13 @@ export default function InvoicePage({ data, onSave, onBack }: InvoicePageProps) 
         <Button type="button" variant="outline" onClick={onBack} className="w-full">
           Back
         </Button>
-        <Button 
-          type="button" 
-          onClick={onSave} 
+        <Button
+          type="button"
+          onClick={onPay}
           className="w-full"
           variant="default"
         >
-          Save Invoice
+          Pay
         </Button>
       </div>
     </div>

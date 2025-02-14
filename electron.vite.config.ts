@@ -5,6 +5,17 @@ export default defineConfig({
     main: {},
     preload: {},
     renderer: {
-        plugins: [react()]
+        plugins: [react()],
+        server: {
+            proxy: {
+                '/proxy': {
+                    target: 'https://souqpass.coopbankoromiasc.com',
+                    changeOrigin: true,
+                    secure: false,
+                    // Optionally rewrite the path
+                    // rewrite: (path) => path.replace(/^\/api/, '')
+                }
+            }
+        }
     }
 });
