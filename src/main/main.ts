@@ -6,7 +6,7 @@ let mainWindow: BrowserWindow | null;
 function createWindow() {
     mainWindow = new BrowserWindow({
         width: 1000,
-        height: 1200,
+        height: 800,
         resizable: true,
         webPreferences: {
             preload: path.join(__dirname, 'preload.ts'),

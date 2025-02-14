@@ -1,4 +1,5 @@
 import { Button } from "./ui/button"
+import { Card } from "./ui/card"
 import {
   Table,
   TableBody,
@@ -7,7 +8,6 @@ import {
   TableHeader,
   TableRow,
 } from "./ui/table"
-import { Card } from "./ui/card"
 
 interface InvoicePageProps {
   data: {
@@ -29,9 +29,10 @@ interface InvoicePageProps {
     }>
   }
   onBack: () => void
+  onNext: () => void
 }
 
-export default function InvoicePage({ data, onBack }: InvoicePageProps) {
+export default function InvoicePage({ data, onBack, onNext }: InvoicePageProps) {
   // const res = await fetch('http://:5173/api/invoice', {
   const onSave = async () => {
     const res = await fetch('http://127.0.0.1:8000/api/submtion/', {
@@ -78,9 +79,12 @@ export default function InvoicePage({ data, onBack }: InvoicePageProps) {
       })
     }).then(res => res.json())
     if (res.data.checkoutUrl) {
-      window.open(res.data.checkoutUrl, '_blank');
+      window.open(res.data.checkoutUrl, '_blank', 'width=1000,height=800');
+      onSave()
+      setTimeout(() => {
+        onNext()
+      }, 4000);
     }
-    console.log(res)
   }
   const total = data.products.reduce(
     (sum, product) => sum + product.price * product.quantity,

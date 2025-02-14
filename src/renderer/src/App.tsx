@@ -99,6 +99,7 @@ function App() {
             <InvoicePage
               data={formData}
               onBack={prevStep}
+              onNext={nextStep}
             />
           )}
 
